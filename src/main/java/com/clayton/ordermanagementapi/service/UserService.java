@@ -1,5 +1,7 @@
 package com.clayton.ordermanagementapi.service;
 
+import com.clayton.ordermanagementapi.dto.CreateUserRequest;
+import com.clayton.ordermanagementapi.dto.UserResponse;
 import com.clayton.ordermanagementapi.entity.User;
 import com.clayton.ordermanagementapi.enums.Role;
 import com.clayton.ordermanagementapi.repository.UserRepository;
@@ -12,14 +14,26 @@ public class UserService {
 
     private final UserRepository userRepository;
 
-    public User createdUser(User user){
+    public UserResponse createdUser(CreateUserRequest request){
 
-        if (userRepository.existsByEmail(user.getEmail())){
+        if (userRepository.existsByEmail(request.getEmail())){
             throw new RuntimeException("Email already registered");
         }
 
+        User user = new User();
+        user.setName(request.getName());
+        user.setEmail(request.getEmail());
+        user.setPassword(request.getPassword());
         user.setRole(Role.CLIENT);
 
-        return userRepository.save(user);
+        User savedUser = userRepository.save(user);
+
+        UserResponse response = new UserResponse();
+        response.setId(savedUser.getId());
+        response.setName(savedUser.getName());
+        response.setEmail(savedUser.getEmail());
+        response.setRole(savedUser.getRole().name());
+
+        return response;
     }
 }

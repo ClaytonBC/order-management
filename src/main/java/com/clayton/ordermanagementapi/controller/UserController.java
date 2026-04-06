@@ -1,8 +1,8 @@
 package com.clayton.ordermanagementapi.controller;
 
-import com.clayton.ordermanagementapi.entity.User;
+import com.clayton.ordermanagementapi.dto.CreateUserRequest;
+import com.clayton.ordermanagementapi.dto.UserResponse;
 import com.clayton.ordermanagementapi.service.UserService;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,7 +17,7 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping
-    public User create(@RequestBody @Valid User user){
-        return userService.createdUser(user);
+    public UserResponse createUser(@RequestBody CreateUserRequest request){
+        return userService.createdUser(request);
     }
 }
