@@ -4,6 +4,7 @@ import com.clayton.ordermanagementapi.dto.CreateUserRequest;
 import com.clayton.ordermanagementapi.dto.UserResponse;
 import com.clayton.ordermanagementapi.entity.User;
 import com.clayton.ordermanagementapi.enums.Role;
+import com.clayton.ordermanagementapi.exception.EmailAlreadyExistsException;
 import com.clayton.ordermanagementapi.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,7 +18,7 @@ public class UserService {
     public UserResponse createdUser(CreateUserRequest request){
 
         if (userRepository.existsByEmail(request.getEmail())){
-            throw new RuntimeException("Email already registered");
+            throw new EmailAlreadyExistsException();
         }
 
         User user = new User();
