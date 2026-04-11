@@ -3,6 +3,7 @@ package com.clayton.ordermanagementapi.controller;
 import com.clayton.ordermanagementapi.dto.CreateUserRequest;
 import com.clayton.ordermanagementapi.dto.UserResponse;
 import com.clayton.ordermanagementapi.service.UserService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,7 +18,8 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping
-    public UserResponse createUser(@RequestBody CreateUserRequest request){
+    public UserResponse createUser(
+            @RequestBody @Valid CreateUserRequest request){
         return userService.createdUser(request);
     }
 }

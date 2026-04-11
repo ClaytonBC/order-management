@@ -2,7 +2,6 @@ package com.clayton.ordermanagementapi.entity;
 
 import com.clayton.ordermanagementapi.enums.Role;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,11 +16,9 @@ public class User {
     private Long id;
 
     @Column(nullable = false)
-    @NotBlank
     private String name;
 
     @Column(nullable = false, unique = true)
-    @NotBlank
     private String email;
 
     @Column(nullable = false)
