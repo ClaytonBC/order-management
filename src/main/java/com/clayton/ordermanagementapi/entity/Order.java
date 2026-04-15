@@ -7,6 +7,8 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Setter
@@ -35,8 +37,17 @@ public class Order {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+    private List<OrderItem> items = new ArrayList<>();
+
     @PrePersist
     public void prePersist(){
         this.createdAt = LocalDateTime.now();
+    }
+
+    public BigDecimal calculateTotal() {
+        return items.stream()
+                .map(OrderItem::getTotal)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 }

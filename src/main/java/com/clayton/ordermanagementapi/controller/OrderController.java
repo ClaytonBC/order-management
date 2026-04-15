@@ -33,12 +33,7 @@ public class OrderController {
     public ResponseEntity<OrderResponse> createOrder(
             @RequestBody CreateOrderRequest request) {
 
-        Order order = orderService.createOrder(request);
-
-        OrderResponse response = new OrderResponse();
-        response.setId(order.getId());
-        response.setStatus(order.getStatus());
-
+        OrderResponse response = orderService.createOrder((request));
         return ResponseEntity.ok(response);
     }
 }

@@ -1,12 +1,18 @@
 package com.clayton.ordermanagementapi.dto;
-
-import com.clayton.ordermanagementapi.enums.Status;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.List;
 
 @Getter
 @Setter
 public class CreateOrderRequest {
+
+    @NotBlank
     private String customer;
-    private Status status;
+
+    @NotEmpty
+    private List<OrderItemRequest> items;
 }
