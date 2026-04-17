@@ -44,4 +44,27 @@ public class ProductService {
                 ))
                 .toList();
     }
+
+    public Product update(Long id, Product data) {
+
+        Product product = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Product not found"));
+
+        product.setName(data.getName());
+        product.setDescription(data.getDescription());
+        product.setPrice(data.getPrice());
+        product.setAvailable(data.getAvailable());
+
+        return repository.save(product);
+    }
+
+    public void delete(Long id) {
+
+        Product product = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Product not found"));
+
+        product.setAvailable(false);
+
+        repository.save(product);
+    }
 }

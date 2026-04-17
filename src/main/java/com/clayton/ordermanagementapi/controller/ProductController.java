@@ -2,6 +2,7 @@ package com.clayton.ordermanagementapi.controller;
 
 import com.clayton.ordermanagementapi.dto.CreateProductRequest;
 import com.clayton.ordermanagementapi.dto.ProductResponse;
+import com.clayton.ordermanagementapi.entity.Product;
 import com.clayton.ordermanagementapi.service.ProductService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
@@ -31,5 +32,17 @@ public class ProductController {
     public ResponseEntity<List<ProductResponse>> findAll() {
         List<ProductResponse> products = service.findAll();
         return ResponseEntity.ok(products);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Product> update(@PathVariable Long id,
+                                          @RequestBody Product data) {
+        return ResponseEntity.ok(service.update(id, data));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        service.delete(id);
+        return ResponseEntity.noContent().build();
     }
 }
