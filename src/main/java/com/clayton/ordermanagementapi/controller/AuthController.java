@@ -2,6 +2,7 @@ package com.clayton.ordermanagementapi.controller;
 
 import com.clayton.ordermanagementapi.dto.LoginRequest;
 import com.clayton.ordermanagementapi.dto.LoginResponse;
+import com.clayton.ordermanagementapi.service.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -16,9 +17,10 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthController {
 
     private final AuthenticationManager authenticationManager;
+    private final JwtService jwtService;
 
     @PostMapping("/login")
-    public LoginResponse login(@RequestBody LoginRequest request){
+    public LoginResponse login(@RequestBody LoginRequest request) {
 
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
@@ -26,6 +28,9 @@ public class AuthController {
                         request.getPassword()
                 )
         );
-        return new LoginResponse("Login sucessful");
+
+        String token = jwtService.generateToken(request.getEmail());
+
+        return new LoginResponse(token);
     }
 }
