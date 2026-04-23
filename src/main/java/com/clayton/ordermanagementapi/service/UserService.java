@@ -7,6 +7,7 @@ import com.clayton.ordermanagementapi.enums.Role;
 import com.clayton.ordermanagementapi.exception.EmailAlreadyExistsException;
 import com.clayton.ordermanagementapi.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     public UserResponse createdUser(CreateUserRequest request){
 
@@ -24,7 +26,7 @@ public class UserService {
         User user = new User();
         user.setName(request.getName());
         user.setEmail(request.getEmail());
-        user.setPassword(request.getPassword());
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
         user.setRole(Role.CLIENT);
 
         User savedUser = userRepository.save(user);
