@@ -101,6 +101,11 @@ public class OrderService {
 
         return toResponse(order);
     }
+    public List<OrderResponse> findAllOrders() {
 
-
+        return orderRepository.findAll()
+                .stream()
+                .map(this::toResponse)
+                .toList();
+    }
 }

@@ -50,6 +50,15 @@ public class OrderController {
             Authentication authentication
     ) {
 
+        boolean isAdmin = authentication.getAuthorities()
+                .stream()
+                .anyMatch(role ->
+                        role.getAuthority().equals("ROLE_ADMIN"));
+
+        if (isAdmin) {
+            return ResponseEntity.ok(orderService.findAllOrders());
+        }
+
         String email = authentication.getName();
 
         return ResponseEntity.ok(orderService.findAll(email));
