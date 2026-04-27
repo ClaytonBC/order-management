@@ -8,6 +8,8 @@ import com.clayton.ordermanagementapi.entity.Order;
 import com.clayton.ordermanagementapi.entity.OrderItem;
 import com.clayton.ordermanagementapi.entity.Product;
 import com.clayton.ordermanagementapi.enums.Status;
+import com.clayton.ordermanagementapi.exception.BusinessException;
+import com.clayton.ordermanagementapi.exception.ResourceNotFoundException;
 import com.clayton.ordermanagementapi.repository.OrderRepository;
 import com.clayton.ordermanagementapi.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
@@ -26,10 +28,10 @@ public class OrderService {
     public Order updateStatus(Long orderId, Status newStatus) {
 
         Order order = orderRepository.findById(orderId)
-                .orElseThrow(() -> new RuntimeException("Order not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Order not found"));
 
         if (!order.getStatus().canTransitionTo(newStatus)) {
-            throw new RuntimeException("Invalid status transition");
+            throw new BusinessException("Invalid status transition");
         }
 
         order.setStatus(newStatus);
@@ -48,7 +50,7 @@ public class OrderService {
         for (OrderItemRequest itemRequest : request.getItems()) {
 
             Product product = productRepository.findById(itemRequest.getProductId())
-                    .orElseThrow(() -> new RuntimeException("Product not found"));
+                    .orElseThrow(() -> new ResourceNotFoundException("Product not found"));
 
             OrderItem item = new OrderItem();
             item.setProduct(product);
@@ -97,7 +99,7 @@ public class OrderService {
 
     public OrderResponse findById(Long id) {
         Order order = orderRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Order not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Order not found"));
 
         return toResponse(order);
     }
