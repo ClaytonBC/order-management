@@ -37,10 +37,10 @@ public class OrderService {
         return orderRepository.save(order);
     }
 
-    public OrderResponse createOrder(CreateOrderRequest request) {
+    public OrderResponse createOrder(CreateOrderRequest request, String userEmail) {
 
         Order order = new Order();
-        order.setCustomer(request.getCustomer());
+        order.setCustomer(userEmail);
         order.setStatus(Status.RECEIVED);
 
         List<OrderItem> items = new ArrayList<>();

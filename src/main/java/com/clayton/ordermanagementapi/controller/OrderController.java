@@ -7,6 +7,7 @@ import com.clayton.ordermanagementapi.entity.Order;
 import com.clayton.ordermanagementapi.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -33,9 +34,14 @@ public class OrderController {
     }
     @PostMapping
     public ResponseEntity<OrderResponse> createOrder(
-            @RequestBody CreateOrderRequest request) {
+            @RequestBody CreateOrderRequest request,
+            Authentication authentication
+    ) {
 
-        OrderResponse response = orderService.createOrder((request));
+        String email = authentication.getName();
+
+        OrderResponse response = orderService.createOrder(request, email);
+
         return ResponseEntity.ok(response);
     }
 
