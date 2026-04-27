@@ -87,8 +87,9 @@ public class OrderService {
         );
     }
 
-    public List<OrderResponse> findAll() {
-        return orderRepository.findAll()
+    public List<OrderResponse> findAll(String email) {
+
+        return orderRepository.findByCustomer(email)
                 .stream()
                 .map(this::toResponse)
                 .toList();
