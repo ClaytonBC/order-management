@@ -47,14 +47,14 @@ public class OrderService {
 
         List<OrderItem> items = new ArrayList<>();
 
-        for (OrderItemRequest itemRequest : request.getItems()) {
+        for (OrderItemRequest itemRequest : request.items()) {
 
-            Product product = productRepository.findById(itemRequest.getProductId())
+            Product product = productRepository.findById(itemRequest.productId())
                     .orElseThrow(() -> new ResourceNotFoundException("Product not found"));
 
             OrderItem item = new OrderItem();
             item.setProduct(product);
-            item.setQuantity(itemRequest.getQuantity());
+            item.setQuantity(itemRequest.quantity());
             item.setPrice(product.getPrice());
             item.setOrder(order);
 

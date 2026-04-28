@@ -17,9 +17,9 @@ public class ProductService {
 
     public ProductResponse create(CreateProductRequest request) {
         Product product = new Product();
-        product.setName(request.getName());
-        product.setDescription(request.getDescription());
-        product.setPrice(request.getPrice());
+        product.setName(request.name());
+        product.setDescription(request.description());
+        product.setPrice(request.price());
         product.setAvailable(true);
 
         Product saved = repository.save(product);

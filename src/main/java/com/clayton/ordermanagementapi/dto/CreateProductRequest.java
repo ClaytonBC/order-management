@@ -2,21 +2,17 @@ package com.clayton.ordermanagementapi.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import lombok.Getter;
-import lombok.Setter;
-
 import java.math.BigDecimal;
 
-@Getter
-@Setter
-public class CreateProductRequest {
+public record CreateProductRequest(
 
-    @NotBlank
-    private String name;
+        @NotBlank
+        String name,
 
-    @NotBlank
-    private String description;
+        @NotBlank
+        String description,
 
-    @NotNull
-    private BigDecimal price;
-}
+        @NotNull
+        BigDecimal price
+
+) { }

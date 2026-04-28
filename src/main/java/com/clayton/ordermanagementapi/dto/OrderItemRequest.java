@@ -1,17 +1,14 @@
 package com.clayton.ordermanagementapi.dto;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
-import lombok.Getter;
-import lombok.Setter;
 
-@Getter
-@Setter
-public class OrderItemRequest {
+public record OrderItemRequest(
 
-    @NotNull
-    private Long productId;
+        @NotNull
+        Long productId,
 
-    @NotNull
-    @Min(1)
-    private Integer quantity;
-}
+        @NotNull
+        @Min(1)
+        Integer quantity
+
+) { }

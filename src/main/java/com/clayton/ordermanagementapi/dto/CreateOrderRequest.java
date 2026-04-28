@@ -1,14 +1,9 @@
 package com.clayton.ordermanagementapi.dto;
 import jakarta.validation.constraints.NotEmpty;
-import lombok.Getter;
-import lombok.Setter;
-
 import java.util.List;
 
-@Getter
-@Setter
-public class CreateOrderRequest {
+public record CreateOrderRequest(
 
-    @NotEmpty
-    private List<OrderItemRequest> items;
-}
+        @NotEmpty
+        List<OrderItemRequest> items
+) { }

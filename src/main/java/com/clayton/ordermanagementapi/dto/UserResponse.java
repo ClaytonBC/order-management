@@ -1,14 +1,10 @@
 package com.clayton.ordermanagementapi.dto;
 
-import lombok.Getter;
-import lombok.Setter;
+public record UserResponse(
 
-@Getter
-@Setter
-public class UserResponse {
+        Long id,
+        String name,
+        String email,
+        String role
 
-    private Long id;
-    private String name;
-    private String email;
-    private String role;
-}
+) { }

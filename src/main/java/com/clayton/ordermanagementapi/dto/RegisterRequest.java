@@ -1,13 +1,9 @@
 package com.clayton.ordermanagementapi.dto;
 
-import lombok.Getter;
-import lombok.Setter;
+public record RegisterRequest(
 
-@Getter
-@Setter
-public class RegisterRequest {
-
-    private String name;
-    private String email;
-    private String password;
+        String name,
+        String email,
+        String password
+) {
 }

@@ -28,12 +28,12 @@ public class AuthController {
 
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                        request.getEmail(),
-                        request.getPassword()
+                        request.email(),
+                        request.password()
                 )
         );
 
-        String token = jwtService.generateToken(request.getEmail());
+        String token = jwtService.generateToken(request.email());
 
         return new LoginResponse(token);
     }

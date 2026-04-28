@@ -1,20 +1,17 @@
 package com.clayton.ordermanagementapi.dto;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import lombok.Getter;
-import lombok.Setter;
 
-@Getter
-@Setter
-public class CreateUserRequest {
 
-    @NotBlank
-    private String name;
+public record CreateUserRequest(
 
-    @NotBlank
-    @Email
-    private String email;
+        @NotBlank
+        String name,
 
-    @NotBlank
-    private String password;
-}
+        @NotBlank
+        @Email
+        String email,
+
+        @NotBlank
+        String password
+) { }

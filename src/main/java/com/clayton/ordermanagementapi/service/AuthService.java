@@ -19,10 +19,10 @@ public class AuthService {
 
         User user = new User();
 
-        user.setName(request.getName());
-        user.setEmail(request.getEmail());
+        user.setName(request.name());
+        user.setEmail(request.email());
         user.setPassword(
-                passwordEncoder.encode(request.getPassword())
+                passwordEncoder.encode(request.password())
         );
         user.setRole(Role.CLIENT);
 

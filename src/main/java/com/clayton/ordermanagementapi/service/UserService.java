@@ -17,26 +17,25 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public UserResponse createdUser(CreateUserRequest request){
+    public UserResponse createdUser(CreateUserRequest request) {
 
-        if (userRepository.existsByEmail(request.getEmail())){
+        if (userRepository.existsByEmail(request.email())) {
             throw new EmailAlreadyExistsException();
         }
 
         User user = new User();
-        user.setName(request.getName());
-        user.setEmail(request.getEmail());
-        user.setPassword(passwordEncoder.encode(request.getPassword()));
+        user.setName(request.name());
+        user.setEmail(request.email());
+        user.setPassword(passwordEncoder.encode(request.password()));
         user.setRole(Role.CLIENT);
 
         User savedUser = userRepository.save(user);
 
-        UserResponse response = new UserResponse();
-        response.setId(savedUser.getId());
-        response.setName(savedUser.getName());
-        response.setEmail(savedUser.getEmail());
-        response.setRole(savedUser.getRole().name());
-
-        return response;
+        return new UserResponse(
+                savedUser.getId(),
+                savedUser.getName(),
+                savedUser.getEmail(),
+                savedUser.getRole().name()
+        );
     }
 }

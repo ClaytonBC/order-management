@@ -24,11 +24,15 @@ public class OrderController {
             @PathVariable Long id,
             @RequestBody UpdateOrderStatusRequest request) {
 
-        Order updatedOrder = orderService.updateStatus(id, request.getStatus());
+        Order updatedOrder = orderService.updateStatus(id, request.status());
 
-        OrderResponse response = new OrderResponse();
-        response.setId(updatedOrder.getId());
-        response.setStatus(updatedOrder.getStatus());
+        OrderResponse response = new OrderResponse(
+                updatedOrder.getId(),
+                updatedOrder.getStatus(),
+                updatedOrder.getCustomer(),
+                updatedOrder.getTotalPrice(),
+                List.of()
+        );
 
         return ResponseEntity.ok(response);
     }
