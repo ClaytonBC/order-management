@@ -5,6 +5,7 @@ import com.clayton.ordermanagementapi.dto.ProductResponse;
 import com.clayton.ordermanagementapi.entity.Product;
 import com.clayton.ordermanagementapi.service.ProductService;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,13 +13,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/products")
+@RequiredArgsConstructor
 public class ProductController {
 
     private final ProductService service;
-
-    public ProductController(ProductService service) {
-        this.service = service;
-    }
 
     @PostMapping
     public ResponseEntity<ProductResponse> create(
