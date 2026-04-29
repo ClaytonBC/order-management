@@ -23,10 +23,10 @@ import static org.mockito.Mockito.when;
 public class ProductServiceTest {
 
     @Mock
-    private ProductRepository repository;
+    private ProductRepository productRepository;
 
     @InjectMocks
-    private ProductService service;
+    private ProductService productService;
 
     @Test
     void shouldCreateProductSuccessfully() {
@@ -45,15 +45,15 @@ public class ProductServiceTest {
         saved.setPrice(BigDecimal.valueOf(150));
         saved.setAvailable(true);
 
-        when(repository.save(any(Product.class)))
+        when(productRepository.save(any(Product.class)))
                 .thenReturn(saved);
 
-        ProductResponse response = service.create(request);
+        ProductResponse response = productService.create(request);
 
         assertEquals("Mouse", response.name());
         assertEquals(true, response.available());
 
-        verify(repository).save(any(Product.class));
+        verify(productRepository).save(any(Product.class));
     }
 
     @Test
@@ -73,16 +73,16 @@ public class ProductServiceTest {
         product2.setPrice(BigDecimal.valueOf(300));
         product2.setAvailable(true);
 
-        when(repository.findAll())
+        when(productRepository.findAll())
                 .thenReturn(List.of(product1, product2));
 
-        List<ProductResponse> result = service.findAll();
+        List<ProductResponse> result = productService.findAll();
 
         assertEquals(2, result.size());
         assertEquals("Mouse", result.get(0).name());
         assertEquals("Teclado", result.get(1).name());
 
-        verify(repository).findAll();
+        verify(productRepository).findAll();
     }
 
     @Test
@@ -101,21 +101,21 @@ public class ProductServiceTest {
         updateData.setPrice(BigDecimal.valueOf(150));
         updateData.setAvailable(false);
 
-        when(repository.findById(1L))
+        when(productRepository.findById(1L))
                 .thenReturn(Optional.of(existingProduct));
 
-        when(repository.save(any(Product.class)))
+        when(productRepository.save(any(Product.class)))
                 .thenReturn(existingProduct);
 
-        Product result = service.update(1L, updateData);
+        Product result = productService.update(1L, updateData);
 
         assertEquals("New Mouse", result.getName());
         assertEquals("New Description", result.getDescription());
         assertEquals(BigDecimal.valueOf(150), result.getPrice());
         assertFalse(result.getAvailable());
 
-        verify(repository).findById(1L);
-        verify(repository).save(existingProduct);
+        verify(productRepository).findById(1L);
+        verify(productRepository).save(existingProduct);
     }
 
     @Test
@@ -124,17 +124,17 @@ public class ProductServiceTest {
         Product updateData = new Product();
         updateData.setName("Mouse");
 
-        when(repository.findById(1L))
+        when(productRepository.findById(1L))
                 .thenReturn(Optional.empty());
 
         RuntimeException exception = assertThrows(
                 RuntimeException.class,
-                () -> service.update(1L, updateData)
+                () -> productService.update(1L, updateData)
         );
 
         assertEquals("Product not found", exception.getMessage());
 
-        verify(repository).findById(1L);
+        verify(productRepository).findById(1L);
     }
 
     @Test
@@ -145,33 +145,33 @@ public class ProductServiceTest {
         product.setName("Mouse");
         product.setAvailable(true);
 
-        when(repository.findById(1L))
+        when(productRepository.findById(1L))
                 .thenReturn(Optional.of(product));
 
-        when(repository.save(any(Product.class)))
+        when(productRepository.save(any(Product.class)))
                 .thenReturn(product);
 
-        service.delete(1L);
+        productService.delete(1L);
 
         assertFalse(product.getAvailable());
 
-        verify(repository).findById(1L);
-        verify(repository).save(product);
+        verify(productRepository).findById(1L);
+        verify(productRepository).save(product);
     }
 
     @Test
     void shouldThrowExceptionWhenDeletingNonExistingProduct() {
 
-        when(repository.findById(1L))
+        when(productRepository.findById(1L))
                 .thenReturn(Optional.empty());
 
         RuntimeException exception = assertThrows(
                 RuntimeException.class,
-                () -> service.delete(1L)
+                () -> productService.delete(1L)
         );
 
         assertEquals("Product not found", exception.getMessage());
 
-        verify(repository).findById(1L);
+        verify(productRepository).findById(1L);
     }
 }
