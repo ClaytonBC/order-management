@@ -1,6 +1,7 @@
 package com.clayton.ordermanagementapi.controller;
 
 import com.clayton.ordermanagementapi.dto.CreateUserRequest;
+import com.clayton.ordermanagementapi.dto.UpdateUserRequest;
 import com.clayton.ordermanagementapi.dto.UserResponse;
 import com.clayton.ordermanagementapi.service.UserService;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -39,5 +40,13 @@ public class UserController {
     public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
         userService.deleteUser(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/{id}")
+    public UserResponse updateUser(
+            @PathVariable Long id,
+            @RequestBody UpdateUserRequest request) {
+
+        return userService.updateUser(id, request);
     }
 }
