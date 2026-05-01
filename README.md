@@ -10,7 +10,7 @@ Documentação interativa disponível via Swagger UI:
 
 `http://localhost:8080/swagger-ui/index.html`
 
-![Swagger UI](./images/swagger-ui.png)
+![Swagger UI](./images/swagger.png)
 
 ---
 
