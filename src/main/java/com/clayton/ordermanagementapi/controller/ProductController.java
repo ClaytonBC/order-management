@@ -5,6 +5,7 @@ import com.clayton.ordermanagementapi.dto.ProductResponse;
 import com.clayton.ordermanagementapi.entity.Product;
 import com.clayton.ordermanagementapi.service.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -72,5 +73,12 @@ public class ProductController {
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         service.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/{id}")
+    public ProductResponse getProductById(
+            @Parameter(description = "Product ID") @PathVariable Long id) {
+
+        return service.getProductById(id);
     }
 }

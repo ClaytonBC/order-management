@@ -67,4 +67,18 @@ public class ProductService {
 
         repository.save(product);
     }
+
+    public ProductResponse getProductById(Long id) {
+
+        Product product = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Product not found"));
+
+        return new ProductResponse(
+                product.getId(),
+                product.getName(),
+                product.getDescription(),
+                product.getPrice(),
+                product.getAvailable()
+        );
+    }
 }
