@@ -6,6 +6,7 @@ import com.clayton.ordermanagementapi.dto.UserResponse;
 import com.clayton.ordermanagementapi.entity.User;
 import com.clayton.ordermanagementapi.enums.Role;
 import com.clayton.ordermanagementapi.exception.EmailAlreadyExistsException;
+import com.clayton.ordermanagementapi.exception.ResourceNotFoundException;
 import com.clayton.ordermanagementapi.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -58,7 +59,7 @@ public class UserService {
     public UserResponse getUserById(Long id) {
 
         User user = userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
         return new UserResponse(
                 user.getId(),
@@ -71,7 +72,7 @@ public class UserService {
     public void deleteUser(Long id) {
 
         User user = userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
         userRepository.delete(user);
     }
@@ -79,7 +80,7 @@ public class UserService {
     public UserResponse updateUser(Long id, UpdateUserRequest request) {
 
         User user = userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
         if (request.name() != null) {
             user.setName(request.name());
