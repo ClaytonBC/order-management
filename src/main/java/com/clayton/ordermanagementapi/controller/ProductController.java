@@ -75,6 +75,14 @@ public class ProductController {
         return ResponseEntity.noContent().build();
     }
 
+    @Operation(
+            summary = "Get product by ID",
+            description = "Retrieve a product by its ID"
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Product found"),
+            @ApiResponse(responseCode = "404", description = "Product not found")
+    })
     @GetMapping("/{id}")
     public ProductResponse getProductById(
             @Parameter(description = "Product ID") @PathVariable Long id) {
