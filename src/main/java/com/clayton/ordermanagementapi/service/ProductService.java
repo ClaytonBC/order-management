@@ -3,6 +3,7 @@ package com.clayton.ordermanagementapi.service;
 import com.clayton.ordermanagementapi.dto.CreateProductRequest;
 import com.clayton.ordermanagementapi.dto.ProductResponse;
 import com.clayton.ordermanagementapi.entity.Product;
+import com.clayton.ordermanagementapi.exception.ResourceNotFoundException;
 import com.clayton.ordermanagementapi.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -48,7 +49,7 @@ public class ProductService {
     public Product update(Long id, Product data) {
 
         Product product = repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Product not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Product not found"));
 
         product.setName(data.getName());
         product.setDescription(data.getDescription());
@@ -61,7 +62,7 @@ public class ProductService {
     public void delete(Long id) {
 
         Product product = repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Product not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Product not found"));
 
         product.setAvailable(false);
 
@@ -71,7 +72,7 @@ public class ProductService {
     public ProductResponse getProductById(Long id) {
 
         Product product = repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Product not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Product not found"));
 
         return new ProductResponse(
                 product.getId(),
