@@ -3,9 +3,9 @@ spring:
     name: order-management
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/order_management_db
-    username: postgres
-    password: 123456
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
 
   jpa:
     hibernate:
