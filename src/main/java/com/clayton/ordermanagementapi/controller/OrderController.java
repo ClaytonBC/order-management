@@ -3,7 +3,6 @@ package com.clayton.ordermanagementapi.controller;
 import com.clayton.ordermanagementapi.dto.CreateOrderRequest;
 import com.clayton.ordermanagementapi.dto.OrderResponse;
 import com.clayton.ordermanagementapi.dto.UpdateOrderStatusRequest;
-import com.clayton.ordermanagementapi.entity.Order;
 import com.clayton.ordermanagementapi.service.OrderService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -38,18 +37,11 @@ public class OrderController {
             @PathVariable Long id,
             @RequestBody UpdateOrderStatusRequest request) {
 
-        Order updatedOrder = orderService.updateStatus(id, request.status());
-
-        OrderResponse response = new OrderResponse(
-                updatedOrder.getId(),
-                updatedOrder.getStatus(),
-                updatedOrder.getCustomer(),
-                updatedOrder.getTotalPrice(),
-                List.of()
-        );
+        OrderResponse response = orderService.updateStatus(id, request.status());
 
         return ResponseEntity.ok(response);
     }
+
     @PostMapping
     @Operation(summary = "Create new order")
     @ApiResponses(value = {

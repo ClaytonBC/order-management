@@ -25,7 +25,7 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final ProductRepository productRepository;
 
-    public Order updateStatus(Long orderId, Status newStatus) {
+    public OrderResponse updateStatus(Long orderId, Status newStatus) {
 
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new ResourceNotFoundException("Order not found"));
@@ -36,7 +36,8 @@ public class OrderService {
 
         order.setStatus(newStatus);
 
-        return orderRepository.save(order);
+        Order savedOrder = orderRepository.save(order);
+        return toResponse(savedOrder);
     }
 
     public OrderResponse createOrder(CreateOrderRequest request, String userEmail) {
@@ -75,6 +76,7 @@ public class OrderService {
         List<OrderItemResponse> items = order.getItems().stream()
                 .map(item -> new OrderItemResponse(
                         item.getProduct().getId(),
+                        item.getProduct().getName(),
                         item.getQuantity(),
                         item.getPrice()
                 ))
