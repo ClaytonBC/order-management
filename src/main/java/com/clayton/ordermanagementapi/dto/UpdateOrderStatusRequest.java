@@ -7,6 +7,6 @@ import jakarta.validation.constraints.NotNull;
 public record UpdateOrderStatusRequest(
 
         @NotNull
-        @Schema(example = "PAID")
+        @Schema(example = "PREPARING")
         Status status
 ) { }

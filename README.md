@@ -1,142 +1,180 @@
-# 🚀 Order Management API
+<div align="center">
 
-Sistema backend para gerenciamento de pedidos, produtos e usuários, desenvolvido com **Java + Spring Boot**, seguindo boas práticas de arquitetura em camadas, autenticação JWT e foco em escalabilidade, segurança e manutenção.
+# 📦 Order Management API
+
+**API REST robusta para gerenciamento de pedidos, produtos e usuários**
+
+![Java](https://img.shields.io/badge/Java-21-orange?style=for-the-badge&logo=java)
+![Spring Boot](https://img.shields.io/badge/Spring%20Boot-4.0.5-brightgreen?style=for-the-badge&logo=springboot)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-15-blue?style=for-the-badge&logo=postgresql)
+![Docker](https://img.shields.io/badge/Docker-Compose-2496ED?style=for-the-badge&logo=docker)
+![JWT](https://img.shields.io/badge/JWT-Auth-black?style=for-the-badge&logo=jsonwebtokens)
+
+</div>
 
 ---
 
-## 📷 API Documentation
+## 📌 Sobre o Projeto
 
-Documentação interativa disponível via Swagger UI:
+API desenvolvida com **Java 21 + Spring Boot** para gerenciamento completo de pedidos, com autenticação JWT, controle de acesso por perfis e containerização via Docker.
 
-`http://localhost:8080/swagger-ui/index.html`
+O projeto aplica boas práticas como arquitetura em camadas, tratamento global de exceções, documentação OpenAPI e testes unitários e de integração com JUnit e Mockito.
 
+---
+
+## 🖼️ Preview
+
+### 📬 Cadastro de Usuário
+![Register](./images/post_register.png)
+
+### 🔐 Login e Token JWT
+![Login](./images/login_token.png)
+
+### 🧾 Criação de Pedido
+![Create Order](./images/post_orders.png)
+
+### 🔄 Atualização de Status
+![Update Status](./images/patch_status.png)
+
+### ❌ Erro 404 - Pedido não encontrado
+![404](./images/404.png)
+
+### 🐳 Containers Docker
+![Docker PS](./images/docker.png)
+
+### 📄 Swagger UI
 ![Swagger UI](./images/swagger.png)
 
 ---
 
-## 🛠 Tecnologias Utilizadas
+## 🛠️ Tecnologias
 
-* Java 21
-* Spring Boot 4.0.5
-* Spring Security
-* JWT Authentication
-* Spring Data JPA
-* Hibernate
-* PostgreSQL
-* Swagger / OpenAPI
-* Docker
-* Maven
-* JUnit 5
-* Mockito
-* Git / GitHub
+| Categoria | Tecnologias |
+|-----------|------------|
+| Linguagem | Java 21 |
+| Framework | Spring Boot, Spring Security, Spring Data JPA |
+| Banco de Dados | PostgreSQL 15 |
+| Autenticação | JWT (JSON Web Token) + BCrypt |
+| Documentação | Swagger / OpenAPI |
+| Testes | JUnit 5, Mockito |
+| DevOps | Docker, Docker Compose |
+| Build | Maven |
 
 ---
 
-## 📌 Funcionalidades
+## ✅ Funcionalidades
 
-### 👤 Usuários
-
-* Cadastro de usuários
-* Login com autenticação JWT
-* Controle de acesso por perfil (ADMIN / CLIENT)
-* Senhas criptografadas com BCrypt
+### 👤 Usuários & Autenticação
+- Cadastro e login de usuários
+- Autenticação via **JWT Token**
+- Controle de acesso por perfil: `ADMIN` e `CLIENT`
+- Senhas criptografadas com **BCrypt**
 
 ### 📦 Produtos
-
-* Cadastro de produtos
-* Listagem de produtos
-* Atualização de produtos
-* Remoção de produtos
+- CRUD completo de produtos
+- Acesso restrito por perfil
 
 ### 🧾 Pedidos
-
-* Criação de pedidos
-* Associação com usuário autenticado
-* Listagem de pedidos do cliente
-* Listagem geral para administradores
-* Atualização de status
-* Consulta por ID
+- Criação de pedidos vinculados ao usuário autenticado
+- Listagem dos próprios pedidos (CLIENT)
+- Listagem geral de todos os pedidos (ADMIN)
+- Atualização de status do pedido
+- Consulta por ID com tratamento de erro `404`
 
 ---
 
-## 🔐 Segurança
+## 🔐 Autenticação JWT
 
-A autenticação é baseada em **JWT Token**.
-
-### Fluxo
-
-1. Usuário se registra
-2. Realiza login
-3. Recebe token JWT
-4. Envia token no header:
+```
+1. POST /auth/register  →  Cria o usuário
+2. POST /auth/login     →  Retorna o token JWT
+3. Envie o token nas requisições protegidas:
+```
 
 ```http
-Authorization: Bearer seu_token
+Authorization: Bearer <seu_token>
 ```
-
-5. Acessa rotas protegidas
 
 ---
 
-## 🧱 Arquitetura do Projeto
+## 🏗️ Arquitetura
 
-Arquitetura em camadas:
-
-```text
-controller -> service -> repository -> database
+```
+controller → service → repository → database
 ```
 
-Estrutura:
-
-```text
+```
 src/main/java/com/clayton/ordermanagementapi
-
-├── config
-├── controller
-├── dto
-├── entity
-├── exception
-├── repository
-├── service
+├── config          # Configurações de segurança e beans
+├── controller      # Camada de entrada (endpoints REST)
+├── dto             # Objetos de transferência de dados
+├── entity          # Entidades JPA
+├── exception       # Tratamento global de erros
+├── repository      # Acesso ao banco de dados
+└── service         # Regras de negócio
 ```
 
 ---
 
-## 🐳 Docker
+## 📡 Endpoints
 
-Projeto containerizado com Docker para facilitar execução e ambiente padronizado.
+### 🔑 Auth
+| Método | Rota | Descrição | Auth |
+|--------|------|-----------|------|
+| `POST` | `/auth/register` | Cadastro de usuário | ❌ |
+| `POST` | `/auth/login` | Login e geração do token | ❌ |
+
+### 📦 Products
+| Método | Rota | Descrição | Auth |
+|--------|------|-----------|------|
+| `GET` | `/products` | Lista produtos | ✅ |
+| `POST` | `/products` | Cria produto | ✅ ADMIN |
+| `PUT` | `/products/{id}` | Atualiza produto | ✅ ADMIN |
+| `DELETE` | `/products/{id}` | Remove produto | ✅ ADMIN |
+
+### 🧾 Orders
+| Método | Rota | Descrição | Auth |
+|--------|------|-----------|------|
+| `GET` | `/orders` | Lista pedidos | ✅ |
+| `GET` | `/orders/{id}` | Busca por ID | ✅ |
+| `POST` | `/orders` | Cria pedido | ✅ |
+| `PATCH` | `/orders/{id}/status` | Atualiza status | ✅ ADMIN |
+
+---
+
+## 🐳 Rodando com Docker
+
+> Pré-requisito: ter **Docker** instalado.
 
 ```bash
+# Clone o repositório
+git clone https://github.com/ClaytonBC/order-management.git
+cd order-management
+
+# Suba os containers
 docker compose up --build
 ```
 
-![Docker](./images/docker.png)
+A API estará disponível em: `http://localhost:8080`
 
 ---
 
-## ▶️ Como Executar Localmente
+## 💻 Rodando Localmente (sem Docker)
 
-### Pré-requisitos
-
-* Java 21+
-* PostgreSQL
-* Maven
-
-### Clone o projeto
+**Pré-requisitos:** Java 21+, PostgreSQL, Maven
 
 ```bash
-git clone https://github.com/seu-usuario/order-management.git
+# Clone o repositório
+git clone https://github.com/ClaytonBC/order-management.git
+cd order-management
 ```
 
-### Configure o application.properties
-
-```properties
-spring.datasource.url=jdbc:postgresql://localhost:5432/order_management_db
-spring.datasource.username=seu_usuario
-spring.datasource.password=sua_senha
+Crie um arquivo `.env` com as variáveis:
+```env
+SPRING_DATASOURCE_URL=jdbc:postgresql://localhost:5432/order_management_db
+SPRING_DATASOURCE_USERNAME=seu_usuario
+SPRING_DATASOURCE_PASSWORD=sua_senha
 ```
-
-### Rode o projeto
 
 ```bash
 mvn spring-boot:run
@@ -144,52 +182,44 @@ mvn spring-boot:run
 
 ---
 
-## 📡 Endpoints Principais
+## 📄 Documentação
 
-### Authentication
+Acesse a documentação interativa via Swagger:
 
-```text
-POST /auth/register
-POST /auth/login
 ```
-
-### Products
-
-```text
-GET    /products
-POST   /products
-PUT    /products/{id}
-DELETE /products/{id}
-```
-
-### Orders
-
-```text
-GET    /orders
-GET    /orders/{id}
-POST   /orders
-PATCH  /orders/{id}/status
+http://localhost:8080/swagger-ui/index.html
 ```
 
 ---
 
 ## 🧪 Testes
 
-* JUnit 5
-* Mockito
+```bash
+mvn test
+```
+
+- **Testes Unitários** — JUnit 5 + Mockito (camada de Service)
+- **Testes de Integração** — Spring Boot Test (camada de Controller)
 
 ---
 
-## 📈 Melhorias Futuras
+## 🚀 Melhorias Futuras
 
-* CI/CD com GitHub Actions
-* Deploy em nuvem
-* Testes de integração
-* Logs centralizados
-* Monitoramento
+- [ ] CI/CD com GitHub Actions
+- [ ] Deploy em nuvem (Railway / Render / AWS)
+- [ ] Paginação nos endpoints de listagem
+- [ ] Logs centralizados
 
 ---
 
 ## 👨‍💻 Autor
 
-Desenvolvido por Clayton Santos.
+<div align="center">
+
+**Clayton Santos**
+Desenvolvedor Backend Java | Spring Boot | APIs REST
+
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Clayton%20Santos-blue?style=for-the-badge&logo=linkedin)](https://www.linkedin.com/in/claytonsantosdev)
+[![GitHub](https://img.shields.io/badge/GitHub-ClaytonBC-black?style=for-the-badge&logo=github)](https://github.com/ClaytonBC)
+
+</div>
