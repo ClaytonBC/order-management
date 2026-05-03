@@ -1,8 +1,10 @@
 package com.clayton.ordermanagementapi.service;
 
 import com.clayton.ordermanagementapi.dto.RegisterRequest;
+import com.clayton.ordermanagementapi.dto.UserResponse;
 import com.clayton.ordermanagementapi.entity.User;
 import com.clayton.ordermanagementapi.enums.Role;
+import com.clayton.ordermanagementapi.exception.EmailAlreadyExistsException;
 import com.clayton.ordermanagementapi.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -15,17 +17,26 @@ public class AuthService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public void register(RegisterRequest request) {
+    public UserResponse register(RegisterRequest request) {
+
+        if (userRepository.existsByEmail(request.email())) {
+            throw new EmailAlreadyExistsException();
+        }
 
         User user = new User();
 
         user.setName(request.name());
         user.setEmail(request.email());
-        user.setPassword(
-                passwordEncoder.encode(request.password())
-        );
+        user.setPassword(passwordEncoder.encode(request.password()));
         user.setRole(Role.CLIENT);
 
-        userRepository.save(user);
+        User savedUser = userRepository.save(user);
+
+        return new UserResponse(
+                savedUser.getId(),
+                savedUser.getName(),
+                savedUser.getEmail(),
+                savedUser.getRole().name()
+        );
     }
 }

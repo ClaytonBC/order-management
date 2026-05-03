@@ -3,6 +3,7 @@ package com.clayton.ordermanagementapi.controller;
 import com.clayton.ordermanagementapi.dto.LoginRequest;
 import com.clayton.ordermanagementapi.dto.LoginResponse;
 import com.clayton.ordermanagementapi.dto.RegisterRequest;
+import com.clayton.ordermanagementapi.dto.UserResponse;
 import com.clayton.ordermanagementapi.service.AuthService;
 import com.clayton.ordermanagementapi.service.JwtService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -10,6 +11,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -57,11 +59,13 @@ public class AuthController {
             @ApiResponse(responseCode = "400", description = "Invalid request"),
             @ApiResponse(responseCode = "409", description = "Email already exists")
     })
-    public ResponseEntity<String> register(
+    public ResponseEntity<UserResponse> register(
             @RequestBody RegisterRequest request
     ) {
-        authService.register(request);
+        UserResponse user = authService.register(request);
 
-        return ResponseEntity.ok("User created successfully");
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(user);
     }
 }
