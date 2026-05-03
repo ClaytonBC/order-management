@@ -34,7 +34,7 @@ O projeto aplica boas práticas como arquitetura em camadas, tratamento global d
 ![Create Order](./images/post_orders.png)
 
 ### 🔄 Atualização de Status
-![Update Status](./images/patch_status.png)
+![Update Status](./images/status_order.png)
 
 ### ❌ Erro 404 - Pedido não encontrado
 ![404](./images/404.png)

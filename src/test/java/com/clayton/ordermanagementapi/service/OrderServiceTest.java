@@ -136,9 +136,9 @@ public class OrderServiceTest {
         when(orderRepository.save(any(Order.class)))
                 .thenAnswer(invocation -> invocation.getArgument(0));
 
-        Order updated = orderService.updateStatus(1L, Status.PREPARING);
+        OrderResponse updated = orderService.updateStatus(1L, Status.PREPARING);
 
-        assertEquals(Status.PREPARING, updated.getStatus());
+        assertEquals(Status.PREPARING, updated.status());
 
         verify(orderRepository).save(order);
     }

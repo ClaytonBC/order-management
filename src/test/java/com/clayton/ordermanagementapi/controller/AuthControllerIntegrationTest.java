@@ -33,7 +33,7 @@ class AuthControllerIntegrationTest {
         mockMvc.perform(post("/auth/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(registerJson))
-                .andExpect(status().isOk());
+                .andExpect(status().isCreated());
 
         String loginJson = """
         {
