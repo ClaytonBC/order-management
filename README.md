@@ -22,6 +22,24 @@ O projeto aplica boas práticas como arquitetura em camadas, tratamento global d
 
 ---
 
+🌐 API em Produção
+
+A API está disponível no Render:
+
+🔗 Base URL:
+https://order-management-oxmy.onrender.com
+
+🔎 Swagger (testar endpoints):
+https://order-management-oxmy.onrender.com/swagger-ui/index.html
+
+⚠️ Observação:
+A rota raiz (/) é protegida e pode retornar 403 Forbidden.
+Use o Swagger ou ferramentas como Postman para interagir com a API.
+
+> ⚠️ O serviço pode demorar até 60 segundos para responder na primeira requisição (cold start do plano gratuito).
+> 
+---
+
 ## 🖼️ Preview
 
 ### 📬 Cadastro de Usuário
@@ -206,7 +224,6 @@ mvn test
 ## 🚀 Melhorias Futuras
 
 - [ ] CI/CD com GitHub Actions
-- [ ] Deploy em nuvem (Railway / Render / AWS)
 - [ ] Paginação nos endpoints de listagem
 - [ ] Logs centralizados
 
