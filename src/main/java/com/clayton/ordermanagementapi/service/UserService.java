@@ -5,6 +5,7 @@ import com.clayton.ordermanagementapi.dto.UpdateUserRequest;
 import com.clayton.ordermanagementapi.dto.UserResponse;
 import com.clayton.ordermanagementapi.entity.User;
 import com.clayton.ordermanagementapi.enums.Role;
+import com.clayton.ordermanagementapi.exception.BusinessException;
 import com.clayton.ordermanagementapi.exception.EmailAlreadyExistsException;
 import com.clayton.ordermanagementapi.exception.ResourceNotFoundException;
 import com.clayton.ordermanagementapi.repository.UserRepository;
@@ -70,9 +71,12 @@ public class UserService {
     }
 
     public void deleteUser(Long id) {
-
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+
+        if (user.getEmail().endsWith("@demo.com")) {
+            throw new BusinessException("Cannot delete demo users");
+        }
 
         userRepository.delete(user);
     }
